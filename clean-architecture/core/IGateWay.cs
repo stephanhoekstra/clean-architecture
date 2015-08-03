@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace core.domain
+namespace core
 {
     public interface IGateWay<T> 
     {

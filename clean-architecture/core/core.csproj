@@ -48,9 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="domain\IGateWay.cs" />
-    <Compile Include="domain\InventoryService.cs" />
+    <Compile Include="IGateWay.cs" />
+    <Compile Include="domain\ProductNotAvailableException.cs" />
     <Compile Include="domain\Order.cs" />
+    <Compile Include="domain\Address.cs" />
     <Compile Include="interactors\CreateOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

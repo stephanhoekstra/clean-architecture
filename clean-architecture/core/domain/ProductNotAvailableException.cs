@@ -2,8 +2,10 @@
 //using System.Collections;
 //using System.Collections.Generic;
 
-//namespace core.domain
-//{
+using System;
+
+namespace core.domain
+{
 //    public static class DummyInventoryFactory 
 //    {
 //        public static Inventory CreateInventory()
@@ -39,4 +41,6 @@
 //    public class Product
 //    {
 //    }
-//}
+
+    public class ProductNotAvailableException : ApplicationException { }
+}

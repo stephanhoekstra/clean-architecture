@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using core.interactors;
+using core.interactors.core.interactors;
 using MediatR;
 
 namespace webapplication.Controllers
