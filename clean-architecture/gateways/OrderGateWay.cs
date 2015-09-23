@@ -5,11 +5,14 @@ using core.domain;
 
 namespace gateways
 {
-    public class InMemoryOrderGateWay:IGateWay<Order>
+    /// <summary>
+    /// stores orders in memory only. 
+    /// </summary>
+    public class OrderGateWay: IOrderGateWay
     {
         private readonly Dictionary<Guid, Order> _orders;
 
-        public InMemoryOrderGateWay()
+        public OrderGateWay()
         {
             _orders = new Dictionary<Guid, Order>();
         }

@@ -10,7 +10,8 @@ namespace webapplication.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Index","Products");
+            //this is a sample application, sorry no homepage. let's get straight to the action. 
+            return RedirectToAction("Create","Order");
         }
     }
 }

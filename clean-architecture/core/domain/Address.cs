@@ -1,14 +1,12 @@
-﻿using FluentValidation;
-
-namespace core.domain
+﻿namespace core.domain
 {
-    public class AddressValidator : AbstractValidator<Address>
+    public class AddressValidator : IAddressValidator
     {
-        public AddressValidator()
-        {
-            RuleFor(a => a.Street).NotEmpty();
-            RuleFor(r => r.HouseNumber).NotEmpty();
-        }
+        
+    }
+
+    public interface IAddressValidator
+    {
     }
 
     public class Address

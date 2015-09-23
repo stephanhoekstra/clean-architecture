@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using core.domain;
-using FluentValidation;
 using MediatR;
 
 namespace core.interactors
@@ -15,23 +15,23 @@ namespace core.interactors
             public int ProductQuantity { get; set; }
         }
 
-        public class CreateOrderInteractor : IRequestHandler<CreateOrderRequest, CreateOrderResponse>
+        public class CreateOrderInteractor : ICreateOrderInteractor 
         {
-            private readonly IValidator<CreateOrderRequest> _validator;
+            private readonly ICreateOrderRequestValidator _validator;
             private readonly Inventory _inventory;
-            private readonly IGateWay<Order> _orderGateway;
+            private readonly IOrderGateWay _orderGateway;
 
-            public CreateOrderInteractor(IValidator<CreateOrderRequest> validator, Inventory inventory, IGateWay<Order> orderGateway)
+            public CreateOrderInteractor(Inventory inventory, IOrderGateWay orderGateway, ICreateOrderRequestValidator validator)
             {
-                _validator = validator;
                 _inventory = inventory;
                 _orderGateway = orderGateway;
+                _validator = validator;
             }
 
             public CreateOrderResponse Handle(CreateOrderRequest message)
             {
                 var validation = _validator.Validate(message);
-                if (validation.IsValid == false) { throw  new ValidationException(validation.Errors);}
+                if (validation.IsValid == false) { throw  new ValidationException();}
 
                 _inventory.Reserve(message.ProductQuantity, message.ProductId);
                 var order = new Order();
@@ -42,14 +42,11 @@ namespace core.interactors
             }
         }
 
-        public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
+        public class CreateOrderRequestValidator : ICreateOrderRequestValidator
         {
-            CreateOrderRequestValidator()
+            public ValidationResult Validate(CreateOrderRequest message)
             {
-                RuleFor(r => r.ProductId).NotEmpty();
-                RuleFor(r => r.ProductQuantity).GreaterThanOrEqualTo(1);
-                RuleFor(r => r.ShippingAddress).NotEmpty();
-                RuleFor(r => r.ShippingAddress).SetValidator(new AddressValidator());
+                return new ValidationResult();
             }
         }
 
@@ -68,5 +65,26 @@ namespace core.interactors.core.interactors
         public void Reserve(int productQuantity, Guid productId)
         {
         }
+    }
+
+
+    public interface ICreateOrderInteractor : IRequestHandler<CreateOrderRequest, CreateOrderResponse>
+    {
+    }
+
+    public interface ICreateOrderRequestValidator
+    {
+        ValidationResult Validate(CreateOrderRequest message);
+    }
+
+    public class ValidationResult
+    {
+        public List<string> ValidationErrors{ get; set; }
+        public bool IsValid => ValidationErrors != null && ValidationErrors.Count == 0;
+    }
+
+    public class ValidationException : Exception
+    {
+        
     }
 }
