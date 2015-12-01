@@ -22,7 +22,7 @@ namespace example.Usecases
     /// </summary>
     public class ContactAgentInteractor
     {
-        private readonly InMemoryHouseViewingRepository _repository = new InMemoryHouseViewingRepository();
+        private readonly IRepository<HouseViewing> _repository = new InMemoryHouseViewingRepository();
         private readonly EmailService _emailService = new EmailService();
 
         public ContactAgentResponseMessage Handle(ContactAgentRequestMessage requestMessage)
@@ -40,7 +40,7 @@ namespace example.Usecases
                 DateTime = null //determined later
             };
 
-            _repository.Save(viewing);
+            _repository.Save(viewing);//specify that the entity should be saved, but we don't care how.
 
             _emailService.SendEmail(viewing);
 

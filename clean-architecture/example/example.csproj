@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\IRepository.cs" />
     <Compile Include="Gateways\EmailService.cs" />
     <Compile Include="Entities\HouseViewing.cs" />
     <Compile Include="Gateways\InMemoryHouseViewingRepository.cs" />
