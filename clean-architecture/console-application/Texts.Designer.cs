@@ -79,7 +79,7 @@ namespace console_application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There was a problem with your input, please try again..
+        ///   Looks up a localized string similar to There was a problem with your input, please uncomment code from Program.cs, then try again..
         /// </summary>
         internal static string ValidationError {
             get {

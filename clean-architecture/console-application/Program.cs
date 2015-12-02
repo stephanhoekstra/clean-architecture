@@ -11,8 +11,8 @@ namespace console_application
 
             controller.Contact(
                 new ContactAgentRequestMessage
-                {
-                    CustomerEmailAddress = "stephan@funda.nl",
+                {   //todo - uncommented this line on purpose, to demonstrate validation:
+                    //CustomerEmailAddress = "stephan@funda.nl",
                     CustomerPhoneNumber = 555123456,
                     ObjectId = 45474845
                 }

@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="press_any_key_to_exit" xml:space="preserve">
+    <value>press any key to exit</value>
+  </data>
   <data name="ThankYou" xml:space="preserve">
     <value>Thank you for your interest in this house, an agent will get back to you shortly</value>
   </data>
   <data name="ValidationError" xml:space="preserve">
-    <value>There was a problem with your input, please try again.</value>
-  </data>
-  <data name="press_any_key_to_exit" xml:space="preserve">
-    <value>press any key to exit</value>
+    <value>There was a problem with your input, please uncomment code from Program.cs, then try again.</value>
   </data>
 </root>

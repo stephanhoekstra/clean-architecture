@@ -1,6 +1,7 @@
 ﻿using example.Entities;
 using example.Gateways;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 
 namespace example.Usecases
@@ -31,19 +32,10 @@ namespace example.Usecases
         public ContactAgentResponseMessage Handle(ContactAgentRequestMessage requestMessage)
         {
             var validationResult = _validator.Validate(requestMessage);
-            if (validationResult.IsValid == false) 
-                return new ContactAgentResponseMessage
-                {
-                    Status = ResponseStatus.ValidationFailed
-                };
+            if (validationResult.IsValid == false)
+                return new ContactAgentResponseMessage(validationResult);
 
-            return new ContactAgentResponseMessage();
-        }
-
-        private bool Validate(ContactAgentRequestMessage requestMessage)
-        {
-            if (string.IsNullOrEmpty(requestMessage.CustomerEmailAddress)) return false;
-            return true;
+            return new ContactAgentResponseMessage(validationResult, requestMessage.ObjectId);
         }
     }
 
@@ -51,7 +43,6 @@ namespace example.Usecases
     {
         public ContactAgentRequestMessageValidator()
         {
-            RuleFor(r => r.CustomerEmailAddress).NotNull();
             RuleFor(r => r.CustomerEmailAddress).NotEmpty();
             RuleFor(r => r.CustomerEmailAddress).EmailAddress().WithMessage("Not a valid email address");
         }
@@ -66,14 +57,14 @@ namespace example.Usecases
 
     public class ContactAgentResponseMessage
     {
-        public long ObjectId { get; set; }
-        public ResponseStatus Status { get; set; }
+        public ValidationResult ValidationResult { get; }
+        public long? ObjectId { get; private set; } //the response object needs this information, so the user knows which object we're talking about;
 
-    }
-    public enum ResponseStatus
-    {
-        Succes = 0,
-        ValidationFailed = 1
+        public ContactAgentResponseMessage(ValidationResult validationResult, int? objectId =null)
+        {
+            ObjectId = objectId;
+            ValidationResult = validationResult;
+        }
     }
 
 }

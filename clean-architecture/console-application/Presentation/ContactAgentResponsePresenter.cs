@@ -1,3 +1,4 @@
+using System.Text;
 using example.Usecases;
 
 namespace console_application.Presentation
@@ -12,12 +13,19 @@ namespace console_application.Presentation
     {
         public ContactAgentResponseViewModel Handle(ContactAgentResponseMessage responseMessage)
         {
-            switch(responseMessage.Status)
+            switch(responseMessage.ValidationResult.IsValid)
             {
-                case ResponseStatus.Succes:
+                case true:
                     return new ContactAgentResponseViewModel(Texts.ThankYou);
-                case ResponseStatus.ValidationFailed:
-                    return new ContactAgentResponseViewModel(Texts.ValidationError);
+                case false:
+                    var sb = new StringBuilder();
+                    sb.AppendLine(Texts.ValidationError);
+
+                    foreach (var error in responseMessage.ValidationResult.Errors)
+                    {
+                        sb.AppendLine(error.ErrorMessage);
+                    }
+                    return new ContactAgentResponseViewModel(sb.ToString());
             }
             return null;
         }
