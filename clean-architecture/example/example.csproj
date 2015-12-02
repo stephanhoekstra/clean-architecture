@@ -48,10 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\House.cs" />
     <Compile Include="Entities\IRepository.cs" />
-    <Compile Include="Gateways\EmailService.cs" />
-    <Compile Include="Entities\HouseViewing.cs" />
-    <Compile Include="Gateways\InMemoryHouseViewingRepository.cs" />
+    <Compile Include="Entities\Interest.cs" />
+    <Compile Include="Gateways\InMemoryHouseRepository.cs" />
     <Compile Include="Usecases\ContactAgentInteractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory.cs" />
     <Compile Include="Presentation\ConsoleView.cs" />
     <Compile Include="Presentation\ContactAgentResponsePresenter.cs" />
     <Compile Include="Program.cs" />

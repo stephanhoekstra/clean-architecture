@@ -1,7 +1,8 @@
 ﻿namespace example.Entities
 {
-    public interface IRepository<T>
+    public interface IRepository< TId, TEntity>
     {
-        T Save(T t);
+        TEntity Save(TEntity entity);
+        TEntity Get(TId id);
     }
 }

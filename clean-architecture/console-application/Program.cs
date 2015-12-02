@@ -7,14 +7,17 @@ namespace console_application
     {
         static void Main()
         {
-            var controller = new AgentController(new ContactAgentInteractor());
+            var controller = 
+                new AgentController(
+                    new ContactAgentInteractor(),
+                    new ContactAgentResponsePresenter());
 
             controller.Contact(
                 new ContactAgentRequestMessage
-                {   //todo - uncommented this line on purpose, to demonstrate validation:
-                    //CustomerEmailAddress = "stephan@funda.nl",
+                {   
+                    CustomerEmailAddress = "stephan@funda.nl",
                     CustomerPhoneNumber = 555123456,
-                    ObjectId = 45474845
+                    HouseId = 45474845
                 }
             );
         }
@@ -28,10 +31,12 @@ namespace console_application
     public class AgentController
     {
         private readonly ContactAgentInteractor _interactor;
+        private readonly ContactAgentResponsePresenter _presenter;
 
-        public AgentController(ContactAgentInteractor interactor)
+        public AgentController(ContactAgentInteractor interactor, ContactAgentResponsePresenter presenter)
         {
             _interactor = interactor;
+            _presenter = presenter;
         }
 
         /// <param name="requestMessage">
@@ -42,8 +47,7 @@ namespace console_application
         {
             var response = _interactor.Handle(requestMessage);
 
-            var presenter = new ContactAgentResponsePresenter();
-            var viewModel = presenter.Handle(response);
+            var viewModel = _presenter.Handle(response);
 
             var view = new ConsoleView(viewModel);
             view.Render();
