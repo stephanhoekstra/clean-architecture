@@ -1,5 +1,7 @@
 ﻿using example.Entities;
 using example.Gateways;
+using FluentValidation;
+using MediatR;
 
 namespace example.Usecases
 {
@@ -20,29 +22,20 @@ namespace example.Usecases
     /// Exception Course: Validation Error
     /// - System delivers the error to customer
     /// </summary>
-    public class ContactAgentInteractor
+    public class ContactAgentInteractor : IRequestHandler<ContactAgentRequestMessage,ContactAgentResponseMessage>
     {
         private readonly IRepository<HouseViewing> _repository = new InMemoryHouseViewingRepository();
         private readonly EmailService _emailService = new EmailService();
+        private readonly IValidator<ContactAgentRequestMessage> _validator = new ContactAgentRequestMessageValidator();
 
         public ContactAgentResponseMessage Handle(ContactAgentRequestMessage requestMessage)
         {
-            if (Validate(requestMessage) == false)
+            var validationResult = _validator.Validate(requestMessage);
+            if (validationResult.IsValid == false) 
                 return new ContactAgentResponseMessage
                 {
-                    Status = ContactAgentResponseMessage.ResponseStatus.ValidationFailed
+                    Status = ResponseStatus.ValidationFailed
                 };
-
-            var viewing = new HouseViewing
-            {
-                CustomerEmailAddress = requestMessage.CustomerEmailAddress,
-                CustomerPhoneNumber = requestMessage.CustomerPhoneNumber,
-                DateTime = null //determined later
-            };
-
-            _repository.Save(viewing);//specify that the entity should be saved, but we don't care how.
-
-            _emailService.SendEmail(viewing);
 
             return new ContactAgentResponseMessage();
         }
@@ -50,26 +43,37 @@ namespace example.Usecases
         private bool Validate(ContactAgentRequestMessage requestMessage)
         {
             if (string.IsNullOrEmpty(requestMessage.CustomerEmailAddress)) return false;
-            if (string.IsNullOrEmpty(requestMessage.HouseAddress)) return false;
             return true;
         }
     }
 
-    public class ContactAgentRequestMessage
+    public class ContactAgentRequestMessageValidator : AbstractValidator<ContactAgentRequestMessage>
+    {
+        public ContactAgentRequestMessageValidator()
+        {
+            RuleFor(r => r.CustomerEmailAddress).NotNull();
+            RuleFor(r => r.CustomerEmailAddress).NotEmpty();
+            RuleFor(r => r.CustomerEmailAddress).EmailAddress().WithMessage("Not a valid email address");
+        }
+    } 
+
+    public class ContactAgentRequestMessage : IRequest<ContactAgentResponseMessage>
     {
         public string CustomerEmailAddress { get; set; }
-        public int CustomerPhoneNumber { get; set; }
-        public string HouseAddress { get; set; } //the house in which the customer is potentially interested
+        public long CustomerPhoneNumber { get; set; }
+        public int ObjectId { get; set; } //the house in which the customer is potentially interested
     }
 
     public class ContactAgentResponseMessage
     {
+        public long ObjectId { get; set; }
         public ResponseStatus Status { get; set; }
 
-        public enum ResponseStatus
-        {
-            Succes = 0,
-            ValidationFailed = 1
-        }
     }
+    public enum ResponseStatus
+    {
+        Succes = 0,
+        ValidationFailed = 1
+    }
+
 }

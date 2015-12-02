@@ -10,7 +10,7 @@ namespace example.Entities
     {
         public int? Id { get; set; }
         public string HouseAddress { get; set; }
-        public int CustomerPhoneNumber { get; set; }
+        public long CustomerPhoneNumber { get; set; }
         public string CustomerEmailAddress { get; set; }
         public DateTime? DateTime { get; set; }
 

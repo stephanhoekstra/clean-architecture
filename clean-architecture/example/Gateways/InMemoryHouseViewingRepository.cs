@@ -3,9 +3,6 @@ using example.Entities;
 
 namespace example.Gateways
 {
-    
-
-
     public class InMemoryHouseViewingRepository : IRepository<HouseViewing>
     {
         private static readonly Dictionary<int, HouseViewing> Store = new Dictionary<int, HouseViewing>();
@@ -23,6 +20,5 @@ namespace example.Gateways
             }
             return value;
         }
-
     }
 }
