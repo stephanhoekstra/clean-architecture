@@ -1,5 +1,4 @@
-﻿using System;
-using console_application.Presentation;
+﻿using console_application.Presentation;
 using example.Usecases;
 
 namespace console_application
@@ -9,6 +8,7 @@ namespace console_application
         static void Main()
         {
             var controller = new AgentController(new ContactAgentInteractor());
+
             controller.Contact(
                 new ContactAgentRequestMessage
                 {
@@ -45,21 +45,8 @@ namespace console_application
             var presenter = new ContactAgentResponsePresenter();
             var viewModel = presenter.Handle(response);
 
-            new ConsoleView(viewModel);
-        }
-    }
-
-    /// <remarks>
-    /// For the purposes of this demonstration, I'm just outputting the viewmodel to the console,
-    /// in an MVC app, this would probably be a razor view;
-    /// </remarks>
-    public class ConsoleView
-    {
-        public ConsoleView(ContactAgentResponseViewModel viewModel)
-        {
-            Console.WriteLine(viewModel.Text);
-            Console.WriteLine(Texts.press_any_key_to_exit);
-            Console.ReadLine();
+            var view = new ConsoleView(viewModel);
+            view.Render();
         }
     }
 }
