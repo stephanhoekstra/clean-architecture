@@ -1,4 +1,5 @@
 ﻿using console_application.Presentation;
+using example.Gateways;
 using example.Usecases;
 
 namespace console_application
@@ -9,7 +10,9 @@ namespace console_application
         {
             var controller = 
                 new AgentController(
-                    new ContactAgentInteractor(),
+                    new ContactAgentInteractor(
+                        new ContactAgentRequestMessageValidator(), 
+                        new InMemoryHouseRepository()),
                     new ContactAgentResponsePresenter());
 
             controller.Contact(

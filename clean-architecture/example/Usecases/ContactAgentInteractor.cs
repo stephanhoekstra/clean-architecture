@@ -7,33 +7,17 @@ using MediatR;
 
 namespace example.Usecases
 {
-    /// <summary>
-    /// Use case: Contact real estate agent
-    /// 
-    /// As a consumer I want to contact the real estate agent 
-    /// because I am interested in a specific house
-    /// and I would like to be contacted for a follow-up meeting so I can
-    /// visit the house in real life, and make a more informed decision 
-    /// with regards to potentially buying it.
-    /// 
-    /// Data:
-    /// - Customer email address(required, must be valid)
-    /// - Customer phone number(required)
-    /// - HouseId - every house on funda has an Id.
-    /// 
-    /// Primary Course
-    /// - The customer issues a "Contact Real Estate Agent" command with above data
-    /// - System validates all data
-    /// - System saves the contact information for reporting purposes
-    /// - System sends an email with customer data to real estate agent 
-    ///
-    /// Exception Course: Validation Error
-    /// - System delivers the error to customer
-    /// </summary>
+    
     public class ContactAgentInteractor : IRequestHandler<ContactAgentRequestMessage,ContactAgentResponseMessage>
     {
-        private readonly IRepository<int, House> _repository = new InMemoryHouseRepository();
-        private readonly IValidator<ContactAgentRequestMessage> _validator = new ContactAgentRequestMessageValidator();
+        private readonly IRepository<int, House> _repository;
+        private readonly IValidator<ContactAgentRequestMessage> _validator;
+
+        public ContactAgentInteractor(IValidator<ContactAgentRequestMessage> validator, IRepository<int, House> repository)
+        {
+            _validator = validator;
+            _repository = repository;
+        }
 
         public ContactAgentResponseMessage Handle(ContactAgentRequestMessage request)
         {
