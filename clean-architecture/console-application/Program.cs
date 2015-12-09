@@ -1,19 +1,47 @@
 ﻿using console_application.Presentation;
+using example.Entities;
 using example.Gateways;
 using example.Usecases;
+using FluentValidation;
+using StructureMap;
+using StructureMap.Graph;
 
 namespace console_application
 {
+    public static class DependencyInjection
+    {
+        public static IContainer Container { get; private set; }
+
+        public static void Initialize()
+        {
+            Container = new Container(_ =>
+            {
+                _.Scan(x =>
+                {
+                    x.TheCallingAssembly();
+                    x.WithDefaultConventions();
+                });
+
+                _.For<IValidator<ContactAgentRequestMessage>>().Use<ContactAgentRequestMessageValidator>();
+                _.For<IRepository<int, House>>().Use(Factory.);
+            });
+        }
+    }
+
     class Program
     {
         static void Main()
         {
-            var controller = 
-                new AgentController(
-                    new ContactAgentInteractor(
-                        new ContactAgentRequestMessageValidator(), 
-                        Factory.CreateDummyInMemoryHouseRepository()),
-                    new ContactAgentResponsePresenter());
+            DependencyInjection.Initialize();
+
+            var controller = DependencyInjection.Container.GetInstance<AgentController>();
+            
+            //var controller = 
+            //    new AgentController(
+            //        new ContactAgentInteractor(
+            //            new ContactAgentRequestMessageValidator(), 
+            //            Factory.CreateDummyInMemoryHouseRepository()),
+            //        new ContactAgentResponsePresenter());
 
             controller.Contact(
                 new ContactAgentRequestMessage
