@@ -1,7 +1,7 @@
 ﻿using example.Entities;
 using example.Gateways;
 
-namespace console_application
+namespace console_application.Structuremap
 {
     public static class Factory
     {

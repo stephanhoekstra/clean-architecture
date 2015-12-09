@@ -1,6 +1,5 @@
 ﻿using System;
 using example.Entities;
-using example.Gateways;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

@@ -59,7 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory.cs" />
+    <Compile Include="AgentController.cs" />
+    <Compile Include="Structuremap\DependencyInjection.cs" />
+    <Compile Include="Structuremap\Factory.cs" />
+    <Compile Include="MediatR\IPostRequestHandler.cs" />
+    <Compile Include="MediatR\IPreRequestHandler.cs" />
+    <Compile Include="MediatR\MediatorPipeline.cs" />
     <Compile Include="Presentation\ConsoleView.cs" />
     <Compile Include="Presentation\ContactAgentResponsePresenter.cs" />
     <Compile Include="Program.cs" />
@@ -70,6 +75,7 @@
       <DependentUpon>Texts.resx</DependentUpon>
     </Compile>
     <Compile Include="Presentation\ContactAgentResponseViewModel.cs" />
+    <Compile Include="MediatR\ValidatorHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
