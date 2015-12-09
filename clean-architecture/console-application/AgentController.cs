@@ -33,7 +33,7 @@ namespace console_application
         {
             var response = _mediator.Send(requestMessage);
 
-            var viewModel = _presenter.Handle(response);
+            var viewModel = _presenter.Handle(response);//this could also be done with mediator
 
             var view = new ConsoleView(viewModel);
             view.Render();
