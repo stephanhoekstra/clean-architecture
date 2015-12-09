@@ -12,7 +12,7 @@ namespace console_application
                 new AgentController(
                     new ContactAgentInteractor(
                         new ContactAgentRequestMessageValidator(), 
-                        new InMemoryHouseRepository()),
+                        Factory.CreateDummyInMemoryHouseRepository()),
                     new ContactAgentResponsePresenter());
 
             controller.Contact(
